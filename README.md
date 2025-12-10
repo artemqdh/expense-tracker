@@ -1,59 +1,193 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📊 Expense Tracker - Laravel Course Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Проект для курса PHP/Laravel - система учета личных расходов с полной аутентификацией и архитектурой по шаблонам Repository/Service.
 
-## About Laravel
+## 🎯 Функциональность
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### ✅ Аутентификация и безопасность
+- Регистрация с подтверждением email (MailHog для разработки)
+- Вход/выход из системы
+- Защита маршрутов middleware (auth + verified)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### ✅ Управление расходами
+- **CRUD операции**: создание, просмотр, редактирование, удаление расходов
+- **Категории**: Еда, Транспорт, Шопинг, Развлечения, Счета, Другое
+- **Фильтрация**: по категории, месяцу, году
+- **Экспорт данных**: CSV формат
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### ✅ Статистика и отчеты
+- Общая сумма расходов за месяц
+- Список всех транзакций с сортировкой по дате
 
-## Learning Laravel
+## 🏗️ Архитектура
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Проект реализован с использованием профессиональных шаблонов проектирования:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+App/
+├── Http/Controllers/     ← Тонкие контроллеры
+├── Services/            ← Бизнес-логика (слой сервисов)
+│   └── Interfaces/      ← Контракты сервисов
+├── Repositories/        ← Работа с данными (паттерн Repository)
+│   └── Interfaces/      ← Контракты репозиториев
+├── Models/              ← Модели Eloquent
+├── Http/Requests/       ← Валидация форм
+└── Providers/           ← Service Providers для DI
+```
 
-## Laravel Sponsors
+### 📦 Используемые технологии
+- **Laravel 12** - PHP фреймворк
+- **Breeze** - аутентификация
+- **SQLite/MySQL** - база данных
+- **Repository/Service Pattern** - архитектура
+- **Dependency Injection** - внедрение зависимостей
+- **PHPUnit** - тестирование (29 тестов)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Установка и запуск
 
-### Premium Partners
+### Требования
+- PHP 8.2+
+- Composer
+- Node.js (для фронтенда)
+- SQLite или MySQL
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Шаги установки
 
-## Contributing
+1. **Клонирование репозитория**
+   ```bash
+   git clone [your-repo-url]
+   cd expense-tracker
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. **Установка зависимостей**
+   ```bash
+   composer install
+   npm install
+   npm run build
+   ```
 
-## Code of Conduct
+3. **Настройка окружения**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. **Настройка базы данных** (SQLite)
 
-## Security Vulnerabilities
+   В файле `.env` установите:
+   ```env
+   DB_CONNECTION=sqlite
+   # DB_DATABASE=путь/к/database.sqlite
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   Создайте файл базы данных:
+   ```bash
+   touch database/database.sqlite
+   ```
 
-## License
+5. **Миграции и сиды**
+   ```bash
+   php artisan migrate
+   # Опционально: php artisan db:seed
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. **Запуск разработческого сервера**
+   ```bash
+   php artisan serve
+   ```
+
+7. **Для тестирования email-верификации** (опционально)
+
+   Запустите MailHog в Docker:
+   ```bash
+   docker run -d -p 8025:8025 -p 1025:1025 mailhog/mailhog
+   ```
+
+## 🧪 Тестирование
+
+Проект покрыт 29 тестами (PHPUnit):
+
+# Запуск всех тестов
+php artisan test
+
+# Результаты тестов:
+✓ AuthTest: 8 тестов (регистрация, вход, выход, верификация)
+✓ ExpenseTest: 10 тестов (CRUD операции, валидация, экспорт CSV)
+✓ ExpenseServiceTest: 5 тестов (бизнес-логика сервисов)
+✓ ProfileTest: 5 тестов (Breeze)
+✓ ExampleTest: 1 тест
+──────────────────────────────
+Всего: 29 тестов ✓
+
+Этот проект создан в учебных целях. Все права на Laravel принадлежат их соответствующим владельцам.
+
+## 🎓 Особенности реализации
+
+### 1. Паттерн Repository
+- Изоляция слоя данных от бизнес-логики
+- Легкая замена реализации (Eloquent → MongoDB и т.д.)
+- Упрощенное тестирование
+
+### 2. Сервисный слой
+- Вся бизнес-логика вынесена в сервисы
+- Чистые контроллеры (только HTTP-логика)
+- Повторное использование кода
+
+### 3. Dependency Injection
+- Автоматическое разрешение зависимостей
+- Гибкая конфигурация через Service Providers
+- Соблюдение принципа инверсии зависимостей (DIP)
+
+### 4. Валидация через Form Requests
+- Отдельные классы для валидации
+- Чистая архитектура контроллеров
+- Повторное использование правил валидации
+
+## 📁 Структура проекта
+
+```bash
+expense-tracker/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── ExpenseController.php
+│   │   │   └── Auth/
+│   │   └── Requests/
+│   │       ├── StoreExpenseRequest.php
+│   │       └── UpdateExpenseRequest.php
+│   ├── Models/
+│   │   ├── User.php
+│   │   └── Expense.php
+│   ├── Repositories/
+│   │   ├── Interfaces/
+│   │   │   ├── ExpenseRepositoryInterface.php
+│   │   │   └── UserRepositoryInterface.php
+│   │   ├── ExpenseRepository.php
+│   │   └── UserRepository.php
+│   ├── Services/
+│   │   ├── Interfaces/
+│   │   │   ├── ExpenseServiceInterface.php
+│   │   │   └── AuthServiceInterface.php
+│   │   ├── ExpenseService.php
+│   │   └── AuthService.php
+│   └── Providers/
+│       └── RepositoryServiceProvider.php
+├── tests/
+├── resources/views/
+│   └── expenses/
+│       ├── index.blade.php
+│       ├── create.blade.php
+│       └── edit.blade.php
+└── routes/
+    └── web.php
+```
+
+## 👤 Автор
+
+Артем Галимов
+- Курс: Топ Академия
+- Группа: ПВ318
+- Год: 2025
+- Email: artjom-05@mail.ru
+
+## 📄 Лицензия

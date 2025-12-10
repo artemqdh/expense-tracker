@@ -16,9 +16,9 @@ class ExpenseFactory extends Factory
         
         return [
             'user_id' => User::factory(),
-            'amount' => $this->faker->randomFloat(2, 1, 500),
+            'amount' => $this->faker->randomFloat(2, 1, 1000),
             'category' => $this->faker->randomElement($categories),
-            'date' => $this->faker->dateBetween('-30 days', 'now'),
+            'date' => $this->faker->date(),
             'description' => $this->faker->sentence(),
         ];
     }
