@@ -4,15 +4,16 @@ namespace App\Repositories;
 
 use App\Models\Expense;
 use App\Repositories\Interfaces\ExpenseRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 class ExpenseRepository implements ExpenseRepositoryInterface
 {
     protected $model;
 
-    public function __construct(Expense $model)
+    public function __construct(Expense $expense)
     {
-        $this->model = $model;
+        $this->model = $expense;
     }
 
     public function getUserExpenses(int $userId, array $filters = []): Collection
@@ -31,7 +32,11 @@ class ExpenseRepository implements ExpenseRepositoryInterface
             $query->whereYear('date', $filters['year']);
         }
         
-        return $query->orderBy('date', 'desc')->get();
+        if (!empty($filters['search'])) {
+            $query->where('description', 'like', '%' . $filters['search'] . '%');
+        }
+        
+        return $query->orderBy('date', 'desc')->orderBy('created_at', 'desc')->get();
     }
 
     public function getExpense(int $id): ?Expense
@@ -46,17 +51,30 @@ class ExpenseRepository implements ExpenseRepositoryInterface
 
     public function updateExpense(int $id, array $data): bool
     {
-        return $this->model->findOrFail($id)->update($data);
+        $expense = $this->getExpense($id);
+        if (!$expense) {
+            return false;
+        }
+        
+        return $expense->update($data);
     }
 
     public function deleteExpense(int $id): bool
     {
-        return $this->model->findOrFail($id)->delete();
+        $expense = $this->getExpense($id);
+        if (!$expense) {
+            return false;
+        }
+        
+        return $expense->delete();
     }
 
     public function getMonthlyTotal(int $userId, string $month): float
     {
-        return $this->model->where('user_id', $userId)
+        [$year, $month] = explode('-', $month);
+        
+        return (float) $this->model->where('user_id', $userId)
+            ->whereYear('date', $year)
             ->whereMonth('date', $month)
             ->sum('amount');
     }

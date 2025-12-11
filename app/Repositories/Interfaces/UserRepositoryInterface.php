@@ -2,17 +2,16 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Models\User;
+use App\Models\Expense;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
-interface UserRepositoryInterface
+interface ExpenseRepositoryInterface
 {
-    public function createUser(array $data): User;
-    public function findUserByEmail(string $email): ?User;
-    public function findUserById(int $id): ?User;
-    public function updateUser(int $id, array $data): bool;
-    public function deleteUser(int $id): bool;
-    public function markEmailAsVerified(int $userId): bool;
-    public function getUserWithExpenses(int $userId): ?User;
-    public function getAllUsers();
-    public function updatePassword(int $userId, string $password): bool;
+    public function getUserExpenses(int $userId, array $filters = []): Builder;
+    public function getExpense(int $id): ?Expense;
+    public function createExpense(array $data): Expense;
+    public function updateExpense(int $id, array $data): bool;
+    public function deleteExpense(int $id): bool;
+    public function getMonthlyTotal(int $userId, string $month): float;
 }
