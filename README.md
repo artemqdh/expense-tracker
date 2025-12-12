@@ -1,5 +1,11 @@
 # 📊 Expense Tracker - Laravel Course Project
 
+![Expense Tracker StartPage](./images/startpage.png)
+
+![Expense Tracker Dashboard](./images/dashboard.png)
+
+![Expense Tracker AllExpenses](./images/expenses.png)
+
 Проект для курса PHP/Laravel - система учета личных расходов с полной аутентификацией и архитектурой по шаблонам Repository/Service.
 
 ## 🎯 Функциональность
